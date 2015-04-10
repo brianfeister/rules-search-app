@@ -30,26 +30,32 @@
     </md-toolbar>
     <div ng-controller="searchCtrl">
       <md-list>
-        <md-list-item class="md-3-line" ng-repeat="power in powers">
+        <md-list-item class="md-3-line" ng-repeat="thisPower in powers">
           <div class="md-list-item-text">
-            <h3>{{power.name}}</h3>
-            <strong>Duration:</strong> {{power.duration}}
+            <h3>{{thisPower.name}}</h3>
+            <strong>Duration:</strong> {{thisPower.duration}}
             <br><br>
+            <strong>Power Level:</strong><br>
+            <ul>
+              <li ng-repeat="power in thisPower.power">
+                {{power}}
+              </li>
+            </ul>
             <strong>Attack:</strong><br>
             <ul>
-              <li ng-repeat="attack in power.attack">
+              <li ng-repeat="attack in thisPower.attack">
                 {{attack}}
               </li>
             </ul>
-            <div ng-if="power.description">
+            <div ng-if="thisPower.description">
               <h3>Description</h3>
-              {{power.description}}
+              {{thisPower.description}}
             </div>
-            <div ng-if="power.effect">
+            <div ng-if="thisPower.effect">
               <h3>Effect</h3>
-              {{power.effect}}
+              {{thisPower.effect}}
             </div>
-            <div ng-if="power.special">
+            <div ng-if="thisPower.special">
               <h3>Special</h3>
               {{power.special}}
             </div>
