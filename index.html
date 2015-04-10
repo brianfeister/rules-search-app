@@ -17,6 +17,7 @@
         .controller('searchCtrl', function ($scope) {
           console.log('Hello from "searchCtrl"');
           $scope.powers = window.powers;
+          $scope.searchQuery = '';
         });
     </script>
   </head>
@@ -29,6 +30,11 @@
       </div>
     </md-toolbar>
     <div ng-controller="searchCtrl">
+    <md-input-container md-no-float>
+      <md-icon md-svg-src="/demo-partials/input/demoIcons/icons/ic_person_24px.svg" class="name"></md-icon>
+      <label>Rules search</label>
+      <input ng-model="searchQuery" type="text">
+    </md-input-container>
       <md-list>
         <md-list-item class="md-3-line" ng-repeat="thisPower in powers">
           <div class="md-list-item-text">
