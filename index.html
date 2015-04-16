@@ -44,31 +44,47 @@
             <strong>Power Level:</strong><br>
             <ul>
               <li ng-repeat="power in thisPower.power">
+    <md-content>
+      <div>
+        <md-list>
+
+          <md-list-item ng-repeat="thisPower in powers">
+            <div class="md-list-item-text">
+              <h2 class="md-display-1">{{thisPower.name}}</h2>
+              <strong>Duration:</strong> {{thisPower.duration}}
+              <br><br>
+              <strong>Power Level:</strong>
+              <span ng-repeat="power in thisPower.power">
+                <span ng-if="$index != 0"> / </span>
                 {{power}}
-              </li>
-            </ul>
-            <strong>Attack:</strong><br>
-            <ul>
-              <li ng-repeat="attack in thisPower.attack">
-                {{attack}}
-              </li>
-            </ul>
-            <div ng-if="thisPower.description">
-              <h3>Description</h3>
-              {{thisPower.description}}
+              </span>
+              <br><br>
+              <strong>Attack:</strong><br>
+              <ul>
+                <li ng-repeat="attack in thisPower.attack">
+                  {{attack}}
+                </li>
+              </ul>
+              <div ng-if="thisPower.description">
+                <h3 class="md-headline">Description</h3>
+                {{thisPower.description}}
+              </div>
+              <div ng-if="thisPower.effect">
+                <h3 class="md-headline">Effect</h3>
+                {{thisPower.effect}}
+              </div>
+              <div ng-if="thisPower.special">
+                <h3 class="md-headline">Special</h3>
+                {{thisPower.special}}
+              </div>
+              <br><br>
             </div>
-            <div ng-if="thisPower.effect">
-              <h3>Effect</h3>
-              {{thisPower.effect}}
-            </div>
-            <div ng-if="thisPower.special">
-              <h3>Special</h3>
-              {{thisPower.special}}
-            </div>
-          </div>
-          <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-      </md-list>
-    </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </div>
+
+
+    </md-content>
   </body>
 </html>
