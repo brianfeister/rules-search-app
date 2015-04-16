@@ -21,15 +21,15 @@
         });
     </script>
   </head>
-  <body ng-app="rulesApp" layout="column">
+  <body ng-app="rulesApp" layout="column" ng-controller="searchCtrl">
     <md-toolbar class="md-default-theme">
       <div class="md-toolbar-tools">
       <h1>
         <span>Rules Search</span>
       </h1>
       </div>
+
     </md-toolbar>
-    <div ng-controller="searchCtrl">
     <md-input-container md-no-float>
       <md-icon md-svg-src="/demo-partials/input/demoIcons/icons/ic_person_24px.svg" class="name"></md-icon>
       <label>Rules search</label>
