@@ -16,9 +16,21 @@
 
     <script>
       angular.module('rulesApp', ['ngMaterial'])
-        .controller('searchCtrl', function ($scope) {
+        .controller('searchCtrl', function ($scope, $filter) {
           console.log('Hello from "searchCtrl"');
           $scope.powers = window.powers;
+          $scope.attackAttributes = [
+            'Agility',
+            'Enchantment',
+            'Entropy',
+            'Might',
+            'Energy',
+            'Illusion',
+            'Psychic',
+            'Divination'
+          ];
+          $scope.selectedPowers = [];
+          $scope.selectedAttributes = [];
           $scope.searchQuery = '';
         });
     </script>
@@ -44,6 +56,23 @@
         </md-autocomplete>
 
         </div>
+        <md-chips ng-model="selectedAttributes" md-autocomplete-snap flex layout-padding>
+          <md-autocomplete
+              md-selected-item="selectedItem"
+              md-items="item in attackAttributes"
+              md-item-text="item.name"
+              placeholder="Attribute Filters">
+            <span md-highlight-text="searchText">{{item}}</span>
+              (<span ng-repeat="power in item.power"><em><small>{{ power }}</small></em></span>)
+          </md-autocomplete>
+          <md-chip-template>
+            <span>
+              <strong>{{$chip}}</strong>
+              <em>({{$chip.tags[0]}})</em>
+            </span>
+          </md-chip-template>
+        </md-chips>
+
       </div>
 
     </md-toolbar>
