@@ -12,6 +12,8 @@
     <script src="assets/js/angular-material.js"></script>
 
     <link href="assets/css/angular-material.css" media="all" rel="stylesheet">
+    <link href="assets/css/style.css" media="all" rel="stylesheet">
+
     <script>
       angular.module('rulesApp', ['ngMaterial'])
         .controller('searchCtrl', function ($scope) {
@@ -24,31 +26,33 @@
   <body ng-app="rulesApp" layout="column" ng-controller="searchCtrl">
     <md-toolbar class="md-default-theme">
       <div class="md-toolbar-tools">
-      <h1>
-        <span>Rules Search</span>
-      </h1>
+        <h1 class="md-headline">
+          <span>Rules Search</span>
+        </h1>
       </div>
 
     </md-toolbar>
-    <md-input-container md-no-float>
-      <md-icon md-svg-src="/demo-partials/input/demoIcons/icons/ic_person_24px.svg" class="name"></md-icon>
-      <label>Rules search</label>
-      <input ng-model="searchQuery" type="text">
-    </md-input-container>
-      <md-list>
-        <md-list-item class="md-3-line" ng-repeat="thisPower in powers">
-          <div class="md-list-item-text">
-            <h3>{{thisPower.name}}</h3>
-            <strong>Duration:</strong> {{thisPower.duration}}
-            <br><br>
-            <strong>Power Level:</strong><br>
-            <ul>
-              <li ng-repeat="power in thisPower.power">
+    <md-toolbar md-scroll-shrink>
+
+      <div layout="row">
+        <div class="left-search" flex layout-padding>
+        <md-autocomplete
+            md-items="item in []"
+            md-item-text="item.name"
+            md-search-text="searchQuery"
+            placeholder="Text Search">
+        </md-autocomplete>
+
+        </div>
+      </div>
+
+    </md-toolbar>
+
     <md-content>
       <div>
         <md-list>
 
-          <md-list-item ng-repeat="thisPower in powers">
+          <md-list-item ng-repeat="thisPower in powers | filter:{name: searchQuery}">
             <div class="md-list-item-text">
               <h2 class="md-display-1">{{thisPower.name}}</h2>
               <strong>Duration:</strong> {{thisPower.duration}}
