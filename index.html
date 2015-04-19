@@ -38,7 +38,7 @@
               return true;
             }
             var regex = new RegExp($scope.searchQuery, 'gi');
-            var return item.name.match(regex);
+            var return item.name.match(regex) || item.description.match(regex) || item.effect.match(regex);
           }
 
         });
