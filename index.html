@@ -38,7 +38,11 @@
               return true;
             }
             var regex = new RegExp($scope.searchQuery, 'gi');
-            var return item.name.match(regex) || item.description.match(regex) || item.effect.match(regex);
+            var show = false; // initially we assume that we won't show a given result
+            // now we look for matches in the following object properties
+            show = item.name.match(regex) || item.description.match(regex) || item.effect.match(regex);
+            // return the result (either `true` or `false`)
+            return show;
           }
 
         });
