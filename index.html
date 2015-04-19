@@ -32,6 +32,15 @@
           $scope.selectedPowers = [];
           $scope.selectedAttributes = [];
           $scope.searchQuery = '';
+          $scope.textSearchFilter = function (item,index,array) {
+            // if `searchQuery` is empty, we want to show all list items
+            if ( $scope.searchQuery === '' ) {
+              return true;
+            }
+            var regex = new RegExp($scope.searchQuery, 'gi');
+            var return item.name.match(regex);
+          }
+
         });
     </script>
   </head>
@@ -81,7 +90,7 @@
       <div>
         <md-list>
 
-          <md-list-item ng-repeat="thisPower in powers | filter:{name: searchQuery}">
+          <md-list-item ng-repeat="thisPower in powers | filter:textSearchFilter">
             <div class="md-list-item-text">
               <h2 class="md-display-1">{{thisPower.name}}</h2>
               <strong>Duration:</strong> {{thisPower.duration}}
@@ -116,7 +125,6 @@
           </md-list-item>
         </md-list>
       </div>
-
 
     </md-content>
   </body>
