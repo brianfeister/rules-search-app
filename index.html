@@ -107,6 +107,12 @@
                 {{power}}
               </span>
               <br><br>
+              <strong>Attack Attributes:</strong>
+              <span ng-repeat="attackAttribute in thisPower.attackAttributes">
+                <span ng-if="$index != 0">, </span>
+                {{attackAttribute}}
+              </span>
+              <br><br>
               <strong>Attack:</strong><br>
               <ul>
                 <li ng-repeat="attack in thisPower.attack">
