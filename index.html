@@ -34,17 +34,35 @@
           $scope.selectedPowers = [];
           $scope.selectedAttributes = [];
           $scope.searchQuery = '';
+          $scope.attackAttrSearchText = '';
+          $scope.updateSearchTextModel = function (val) {
+            $scope.attackAttrSearchText = val;
+          };
+          $scope.attackAttrSearchFilter = function (item,index,array) {
+            // return all the options if the user hasn't selected a filter
+            if ( $scope.attackAttrSearchText === '' ){
+              return true;
+            }
+            return item.toLowerCase().match($scope.attackAttrSearchText.toLowerCase());
+          };
           $scope.textSearchFilter = function (item,index,array) {
             // if `searchQuery` is empty, we want to show all list items
-            if ( $scope.searchQuery === '' ) {
+            if ( $scope.searchQuery === '' && $scope.selectedAttributes.length === 0 ) {
               return true;
             }
             var regex = new RegExp($scope.searchQuery, 'gi');
             var show = false; // initially we assume that we won't show a given result
+            var inAttackFilter = true;
             // now we look for matches in the following object properties
             show = item.name.match(regex) || item.description.match(regex) || item.effect.match(regex);
+            // if the selectedAttributes array is longer than 0, we need to show
+            // only results that match one of the selected properties
+            if ( $scope.selectedAttributes.length > 0 ) {
+              var searchAttrs = angular.copy( $scope.selectedAttributes );
+              var inAttackFilter = _.intersection( item.attackAttributes, searchAttrs ).length > 0;
+            }
             // return the result (either `true` or `false`)
-            return show;
+            return show && inAttackFilter;
           }
 
         });
@@ -64,6 +82,7 @@
       <div layout="row">
         <div class="left-search" flex layout-padding>
         <md-autocomplete
+            md-min-length="0"
             md-items="item in []"
             md-item-text="item.name"
             md-search-text="searchQuery"
@@ -73,17 +92,18 @@
         </div>
         <md-chips ng-model="selectedAttributes" md-autocomplete-snap flex layout-padding>
           <md-autocomplete
+              md-min-length="0"
+              md-search-text="attackAttrSearchText"
+              md-search-text-change="updateSearchTextModel(attackAttrSearchText)"
               md-selected-item="selectedItem"
-              md-items="item in attackAttributes"
+              md-items="item in attackAttributes | filter:attackAttrSearchFilter"
               md-item-text="item.name"
-              placeholder="Attribute Filters">
-            <span md-highlight-text="searchText">{{item}}</span>
-              (<span ng-repeat="power in item.power"><em><small>{{ power }}</small></em></span>)
+              placeholder="Attack Attributes">
+            <span md-highlight-text="attackAttrSearchText">{{item}}</span>
           </md-autocomplete>
           <md-chip-template>
             <span>
               <strong>{{$chip}}</strong>
-              <em>({{$chip.tags[0]}})</em>
             </span>
           </md-chip-template>
         </md-chips>
