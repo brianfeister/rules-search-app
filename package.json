@@ -1,0 +1,14 @@
+{
+  "name": "open_legend_effects",
+  "version": "0.0.1",
+  "description": "List of banes and boons for Open Legend RPG",
+  "author": {
+    "name": "Brian Feister",
+    "email": "brian@drm.st"
+  },
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-replace": "^0.5.3",
+    "gulp-yaml": "^0.2.4"
+  }
+}

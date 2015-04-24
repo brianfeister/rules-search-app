@@ -18,9 +18,15 @@
 
     <script>
       angular.module('rulesApp', ['ngMaterial'])
-        .controller('searchCtrl', function ($scope, $filter) {
+        .filter('unsafe', function($sce) { return $sce.trustAsHtml; })
+        .controller('searchCtrl', function ($scope, $http, $filter, $sce) {
           console.log('Hello from "searchCtrl"');
-          $scope.powers = window.powers;
+          $scope.powerAboveBelow = 'or Less';
+          $scope.powers = [];
+          $http.get('./rules/dist/banes.json')
+            .success( function (response) {
+              $scope.powers = response;
+            })
           $scope.attackAttributes = [
             'Agility',
             'Enchantment',
@@ -64,6 +70,21 @@
             // return the result (either `true` or `false`)
             return show && inAttackFilter;
           }
+          $scope.powerLevelFilter = function (item, index, array) {
+            // console.log( $scope.powerLevelValue );
+            var powerAbove = ( $scope.powerAboveBelow === 'or Greater' );
+            var include = false;
+            for (var i = 0; i < item.power.length; i++) {
+              if ( powerAbove && item.power[i] > $scope.powerLevelValue ) {
+                include = true;
+                break;
+              } else if ( !powerAbove && item.power[i] < $scope.powerLevelValue ) {
+                include = true;
+                break;
+              }
+            };
+            return include;
+          };
 
         });
     </script>
@@ -107,6 +128,28 @@
             </span>
           </md-chip-template>
         </md-chips>
+        <div flex layout="row">
+          <div flex="50">
+            <md-select placeholder="Pick" ng-model="powerLevelValue">
+              <md-option value="1">1</md-option>
+              <md-option value="2">2</md-option>
+              <md-option value="3">3</md-option>
+              <md-option value="4">4</md-option>
+              <md-option value="5">5</md-option>
+              <md-option value="6">6</md-option>
+              <md-option value="7">7</md-option>
+              <md-option value="8">8</md-option>
+              <md-option value="9">9</md-option>
+            </md-select>
+          </div>
+
+          <div flex="50">
+            <md-switch ng-model="powerAboveBelow" ng-true-value="'or Greater'" ng-false-value="'or Less'" aria-label="Toggle Power Filter">
+              {{ powerAboveBelow }}
+            </md-switch>
+          </div>
+
+        </div>
 
       </div>
 
@@ -116,7 +159,7 @@
       <div>
         <md-list>
 
-          <md-list-item ng-repeat="thisPower in powers | filter:textSearchFilter">
+          <md-list-item ng-repeat="thisPower in powers | filter:textSearchFilter | filter:powerLevelFilter">
             <div class="md-list-item-text">
               <h2 class="md-display-1">{{thisPower.name}}</h2>
               <strong>Duration:</strong> {{thisPower.duration}}
@@ -141,15 +184,15 @@
               </ul>
               <div ng-if="thisPower.description">
                 <h3 class="md-headline">Description</h3>
-                {{thisPower.description}}
+                <p ng-bind-html="thisPower.description | unsafe"></p>
               </div>
               <div ng-if="thisPower.effect">
                 <h3 class="md-headline">Effect</h3>
-                {{thisPower.effect}}
+                 <p ng-bind-html="thisPower.effect | unsafe"></p>
               </div>
               <div ng-if="thisPower.special">
                 <h3 class="md-headline">Special</h3>
-                {{thisPower.special}}
+                <p ng-bind-html="thisPower.special | unsafe"></p>
               </div>
               <br><br>
             </div>
