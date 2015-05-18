@@ -41,6 +41,8 @@
           $scope.selectedAttributes = [];
           $scope.searchQuery = '';
           $scope.attackAttrSearchText = '';
+          $scope.powerLevelValue = 1;
+          $scope.powerAboveBelow = 'or Greater';
           $scope.updateSearchTextModel = function (val) {
             $scope.attackAttrSearchText = val;
           };
@@ -74,11 +76,11 @@
             // console.log( $scope.powerLevelValue );
             var powerAbove = ( $scope.powerAboveBelow === 'or Greater' );
             var include = false;
-            for (var i = 0; i < item.power.length; i++) {
+            for (var i = 0; i <= item.power.length; i++) {
               if ( powerAbove && item.power[i] > $scope.powerLevelValue ) {
                 include = true;
                 break;
-              } else if ( !powerAbove && item.power[i] < $scope.powerLevelValue ) {
+              } else if ( !powerAbove && item.power[i] <= $scope.powerLevelValue ) {
                 include = true;
                 break;
               }
